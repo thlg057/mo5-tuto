@@ -6,6 +6,15 @@ Each tutorial is self-contained and built using a common root `Makefile`.
 
 ---
 
+## Prerequisites
+
+- [DCMOTO](http://dcmoto.free.fr/emulateur/index.html) emulator
+- [LWTOOLS](https://www.lwtools.ca/) cross-development tools for the Motorola 6809 and Hitachi 6309 microprocessors
+- [CMOC](http://gvlsywt.cluster051.hosting.ovh.net/dev/cmoc.html) Motorola 6809 compiler
+
+⚠️ Most of these sites are served over HTTP (not secure), which triggers some warnings in modern browsers.
+But don’t worry: they are reliable historical references in the retro-computing world.
+
 ## 📁 Project Structure
 
 ```text
@@ -21,6 +30,7 @@ Each tutorial is self-contained and built using a common root `Makefile`.
 ├── tutorial2/            # Tutorial 2: Keyboard scan example
 │   └── Makefile
 ```
+
 ## 📦 Installing the Tools
 
 Before building, install the required MO5 tools:
@@ -58,6 +68,37 @@ make clean
 make tutorial1-clean
 ```
 
+## Shared Libraries (`libs/`)
+
+Programs in this repository rely on shared C libraries located in the `libs/` directory.
+
+```text
+libs/
+├── mo5_lib.c
+└── mo5_lib.h
+```
+
+
+Each program has its own `src/main.c` and **does not copy** the library files.
+
+The integration is handled entirely by the Makefile:
+- Library source files (`.c`) are compiled and linked with the program
+- Header files (`.h`) are included in the code using:
+
+```c
+#include "mo5_lib.h"
+ ```
+
+The library include path is passed to the compiler via -I
+
+Example from the Makefile:
+
+```make
+LIBS_DIR   := ../libs
+CMOC_FLAGS := --thommo --org=2600 -I$(LIBS_DIR)
+```
+This approach allows multiple programs to share the same MO5-specific code without duplication.
+
 ## 📘 Tutorials Overview
 ### Tutorial 1 — Name Greeting Program
 
@@ -67,8 +108,7 @@ The program asks the user to enter a first name
 
 It then displays a greeting message:
 
-Bonjour <name>
-
+Bonjour [name]
 
 Concepts covered:
 

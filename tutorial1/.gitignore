@@ -1,0 +1,24 @@
+# Generated directories
+bin/
+output/
+
+# Compiled files
+*.BIN
+*.bin
+*.o
+*.obj
+
+# Disk images
+*.fd
+*.FD
+
+# Listing files
+*.lst
+*.html
+
+# Temporary files
+*~
+*.swp
+*.swo
+.DS_Store
+
