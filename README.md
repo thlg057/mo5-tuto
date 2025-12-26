@@ -1,39 +1,80 @@
-# Thomson MO5 Assembly Tutorials
+# Thomson MO5 C Examples (CMOC-based)
 
-This repository contains a set of **assembly language tutorials for the Thomson MO5**, designed to demonstrate basic input/output and keyboard handling using real MO5-compatible tools.
+This repository contains a collection of **C language examples for the Thomson MO5**, built with the **CMOC compiler** and related tools.
 
-Each tutorial is self-contained and built using a common root `Makefile`.
+The project explores different approaches to C development on the MO5, ranging from pure CMOC usage to hybrid and fully home-made C libraries.
+
+All projects are built using **Makefiles**, available at multiple levels of the repository.
 
 ---
 
 ## Prerequisites
 
-- [DCMOTO](http://dcmoto.free.fr/emulateur/index.html) emulator
-- [LWTOOLS](https://www.lwtools.ca/) cross-development tools for the Motorola 6809 and Hitachi 6309 microprocessors
-- [CMOC](http://gvlsywt.cluster051.hosting.ovh.net/dev/cmoc.html) Motorola 6809 compiler
+To build and run the programs, you will need:
 
-⚠️ Most of these sites are served over HTTP (not secure), which triggers some warnings in modern browsers.
-But don’t worry: they are reliable historical references in the retro-computing world.
+- **DCMOTO** emulator  
+  http://dcmoto.free.fr/emulateur/index.html
 
-## 📁 Project Structure
+- **LWTOOLS** (6809/6309 cross-development tools)  
+  https://www.lwtools.ca/
+
+- **CMOC** (Motorola 6809 C compiler)  
+  http://gvlsywt.cluster051.hosting.ovh.net/dev/cmoc.html
+
+⚠️ Note: Some of these websites use HTTP instead of HTTPS.  
+They are well-known and trusted resources in the retro-computing community.
+
+---
+
+## Project Structure
 
 ```text
 .
-├── Makefile              # Root Makefile (builds all tutorials)
-├── tools/                # External tools (installed automatically)
-│   └── BootFloppyDisk/   # BootFloppyDisk tools repository
-├── libs/                 # Home made libs dedicated to mo5
-│   ├── mo5_lib.h         # interface
-│   └── mo5_lib.c         # implementation
-├── tutorial1/            # Tutorial 1: User input example
-│   └── Makefile
-├── tutorial2/            # Tutorial 2: Keyboard scan example
-│   └── Makefile
+├── Makefile                  # Root Makefile (builds everything)
+├── tools/
+│   └── BootFloppyDisk/       # BootFloppyDisk tools
+├── cmoc-native/
+│   ├── Makefile              # Builds sample1 and sample2
+│   ├── sample1/
+│   │   ├── Makefile
+│   │   └── src/
+│   │       └── main.c
+│   └── sample2/
+│       ├── Makefile
+│       └── src/
+│           └── main.c
+├── cmoc-hybrid/
+│   ├── Makefile              # Builds sample1 and sample2
+│   ├── libs/
+│   ├── sample1/
+│   │   ├── Makefile
+│   │   └── src/
+│   │       └── main.c
+│   └── sample2/
+│       ├── Makefile
+│       └── src/
+│           └── main.c
+└── home-made/
+    ├── Makefile              # Builds sample1 and sample2
+    ├── libs/
+    ├── sample1/
+    │   ├── Makefile
+    │   └── src/
+    │       └── main.c
+    └── sample2/
+        ├── Makefile
+        └── src/
+            └── main.c
 ```
 
-## 📦 Installing the Tools
+---
 
-Before building, install the required MO5 tools:
+## BootFloppyDisk Installation
+
+The root Makefile can automatically install BootFloppyDisk, which is required to generate bootable disk images for the Thomson MO5.
+
+To install the tools:
+
 ```bash
 make install
 ```
@@ -42,97 +83,119 @@ This will:
 
 - Clone the BootFloppyDisk repository
 - Build the required tools
-- Generate BOOTMO.BIN needed for disk images
+- Generate BOOTMO.BIN, used during disk image creation
 
-## 🚀 Building the Project
-### Build all tutorials
+---
+
+## Building the Projects
+
+### Build everything (root level)
+
 ```bash
 make
 ```
 
-### Build a single tutorial
+---
+
+### Build per directory
+
+Each main directory contains its own Makefile, allowing you to build only the samples inside that directory.
+
+Example:
+
 ```bash
-make tutorial1
-make tutorial2
+cd cmoc-native
+make
 ```
+
+---
+
+### Build a single sample
+
+Each sample directory has its own Makefile and a single entry point located in src/main.c.
+
+Example:
+
+```bash
+cd cmoc-native/sample1
+make
+```
+
+---
 
 ### Clean build files
 
-#### Clean everything:
+Clean everything from the root:
+
 ```bash
 make clean
 ```
 
-#### Clean a single tutorial:
-```bash
-make tutorial1-clean
-```
+Or clean at directory or sample level using the corresponding Makefile.
 
-## Shared Libraries (`libs/`)
+---
 
-Programs in this repository rely on shared C libraries located in the `libs/` directory.
+## Directory Overview
 
-```text
-libs/
-├── mo5_lib.c
-└── mo5_lib.h
-```
+### cmoc-native
 
+- Uses only cmoc.h
+- No standard C libraries
+- Pure CMOC examples
 
-Each program has its own `src/main.c` and **does not copy** the library files.
+---
 
-The integration is handled entirely by the Makefile:
-- Library source files (`.c`) are compiled and linked with the program
-- Header files (`.h`) are included in the code using:
+### cmoc-hybrid
 
-```c
-#include "mo5_lib.h"
- ```
+- Uses cmoc.h
+- Adds custom libraries to extend missing C features
+- Partial implementations of stdio.h and ctype.h
 
-The library include path is passed to the compiler via -I
+Libraries are located in cmoc-hybrid/libs.
 
-Example from the Makefile:
+---
 
-```make
-LIBS_DIR   := ../libs
-CMOC_FLAGS := --thommo --org=2600 -I$(LIBS_DIR)
-```
-This approach allows multiple programs to share the same MO5-specific code without duplication.
+### home-made
 
-## 📘 Tutorials Overview
-### Tutorial 1 — Name Greeting Program
+- Does not use cmoc.h
+- Fully home-made implementations of stdio.h, ctype.h and string.h
 
-This tutorial demonstrates basic user input.
+Libraries are located in home-made/libs.
 
-The program asks the user to enter a first name
+---
 
-It then displays a greeting message:
+## Sample Projects
 
-Bonjour [name]
+Each directory (cmoc-native, cmoc-hybrid, home-made) contains the same two sample projects.
 
-Concepts covered:
+### sample1 — Name Greeting Program
 
-- Keyboard input
-- String handling
-- Text output
-- Basic program flow
+- Prompts the user to enter their name
+- Displays:
 
-### Tutorial 2 — Key Code Display Program
+Hello [entered name]
 
-This tutorial focuses on keyboard handling.
+---
 
-The program waits for a key press
+### sample2 — Key Code Display Program
 
-It displays the character code of the pressed key
+- Waits for a key press
+- Displays the character code of the pressed key
 
-Concepts covered:
+---
 
-- Low-level keyboard scanning
-- Character codes
-- Real-time input handling
+## Goals of This Repository
 
-## 🙌 Credits
+- Explore C programming on the Thomson MO5
+- Compare multiple development approaches:
+  - CMOC-only
+  - CMOC + extended libraries
+  - Fully custom C runtime
+- Provide small, clear, and educational examples
 
-BootFloppyDisk tools by OlivierP-To8
+---
 
-Thomson MO5 documentation and community resources
+## Credits
+
+- BootFloppyDisk tools by OlivierP-To8
+- Thomson MO5 community and documentation
