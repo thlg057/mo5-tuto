@@ -9,7 +9,9 @@
  * - String concatenation for personalized output
  */
 
-#include "mo5_lib.h"
+#include <cmoc.h>
+#include "mo5_defs.h"
+#include "mo5_stdio.h"
 
 /* ========================================
  * CONSTANTS
@@ -21,6 +23,24 @@
  * MAIN PROGRAM
  * ======================================== */
 
+void mo5_clear_buffer(char* buffer, int size)
+{
+    int i;
+    for (i = 0; i < size; i++) {
+        buffer[i] = '\0';
+    }
+}
+
+void mo5_wait_key(char key)
+{
+    char ch;
+
+    // Wait for the specific key - ignore all invalid characters
+    do {
+        ch = getchar();
+    } while (ch != key);
+}
+
 int main(void)
 {
     char name[MAX_NAME_LENGTH + 1];  // +1 for null terminator
@@ -28,27 +48,23 @@ int main(void)
     // Infinite loop to greet multiple people
     while (1) {
         // Clear screen for clean display
-        mo5_clear_screen();
-        mo5_clear_buffer(name, MAX_NAME_LENGTH + 1);
+        clrscr();
+        //mo5_clear_buffer(name, MAX_NAME_LENGTH + 1);
+        memset(name, 0, MAX_NAME_LENGTH + 1);
         // Display welcome prompt
-        mo5_print_line("What is your first name?");
-        mo5_print_newline();
+        fputs("What is your first name?\r\n");
 
         // Read user input
-        mo5_input_string(name, MAX_NAME_LENGTH);
-        mo5_print_newline();
-        mo5_print_newline();
+        int size = fgets(name, MAX_NAME_LENGTH);
+        fputs("\r\n");
 
         // Display personalized greeting
-        mo5_print_string("Hello ");
-        mo5_print_string(name);
-        mo5_print_line("!");
+        fputs("Hello "); fputs(name); fputs("!\r\n");
 
         // Wait for 'Y' key before next iteration
-        mo5_print_newline();
-        mo5_print_string("Press Y to continue...");
+        fputs("\r\n");
+        fputs("Press Y to continue...");
         mo5_wait_key('Y');
-        mo5_print_newline();
     }
 
     return 0;

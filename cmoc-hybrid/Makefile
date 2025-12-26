@@ -11,11 +11,11 @@
 # BootFloppyDisk by OlivierP (https://github.com/OlivierP-To8/BootFloppyDisk)
 #
 # Usage:
-#   make                   - Build all tutorials
-#   make cmoc-native       - Build cmoc native samples (binary + disk image)
-#   make cmoc-native-clean - Remove all generated files for cmoc native samples
-#   make install           - Install BootFloppyDisk tools
-#   make clean             - Remove all generated files
+#   make                 - Build all tutorials
+#   make sample1       	 - Build sample1 (binary + disk image)
+#   make sample1-clean   - Remove all generated files for tutorial1
+#   make install         - Install BootFloppyDisk tools
+#   make clean           - Remove all generated files
 #
 # ==========================================================
 
@@ -23,19 +23,19 @@
 .DEFAULT_GOAL := all
 
 # Paths
-TOOLS_DIR   := tools
+TOOLS_DIR   := ../tools
 BOOTFD_DIR  := $(TOOLS_DIR)/BootFloppyDisk
 FDFS        := $(BOOTFD_DIR)/tools/fdfs
 BOOTMO_BIN  := $(TOOLS_DIR)/BOOTMO.BIN
 
 # List of tutorials
-TUTORIALS   := cmoc-native cmoc-hybrid home-made
+TUTORIALS   := sample1 sample2
 
 # ==========================================================
 # TARGETS
 # ==========================================================
 
-.PHONY: all clean install $(TUTORIALS) $(addsuffix -clean,$(TUTORIALS))
+.PHONY: all clean $(TUTORIALS) $(addsuffix -clean,$(TUTORIALS))
 
 # Build all tutorials
 all: $(TUTORIALS)
@@ -50,16 +50,3 @@ clean: $(addsuffix -clean,$(TUTORIALS))
 # Clean individual tutorial
 $(addsuffix -clean,$(TUTORIALS)):
 	$(MAKE) -C $(patsubst %-clean,%,$@) clean
-
-# Install BootFloppyDisk
-install:
-	@command -v git >/dev/null || { echo "git is required"; exit 1; }
-	@echo "Installing BootFloppyDisk..."
-	@mkdir -p "$(TOOLS_DIR)"
-	@if [ ! -d "$(BOOTFD_DIR)" ]; then \
-		git clone https://github.com/OlivierP-To8/BootFloppyDisk.git "$(BOOTFD_DIR)"; \
-	fi
-	@chmod +x "$(BOOTFD_DIR)/tools/"* 2>/dev/null || true
-	@$(MAKE) -C "$(BOOTFD_DIR)"
-	@cd "$(BOOTFD_DIR)" && ./tools/c6809 -bl BootMO.asm "../../$(BOOTMO_BIN)"
-	@echo "✓ BootFloppyDisk installation complete!"

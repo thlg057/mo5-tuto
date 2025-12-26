@@ -10,6 +10,7 @@
  */
 
 #include "mo5_lib.h"
+#include "mo5_stdio.h"
 
 /* ========================================
  * HELPER FUNCTIONS
@@ -23,14 +24,14 @@ void display_char_code(char ch)
     int code = (int)ch;
     
     // Display the code
-    mo5_print_string("Code: ");
+    fputs("Code: ");
     mo5_print_number(code);
     
     // If printable, display the character in parentheses
     if (mo5_is_printable(ch)) {
-        mo5_print_string(" (");
+        fputs(" (");
         mo5_putchar(ch);
-        mo5_print_string(")");
+        fputs(")");
     }
     
     mo5_print_newline();
@@ -46,13 +47,14 @@ int main(void)
     
     // Clear screen and show title
     mo5_clear_screen();
-    mo5_print_line("CHARACTER CODE EXPLORER");
-    mo5_print_line("=======================");
+    puts("CHARACTER CODE EXPLORER");
+    puts("=======================");
     mo5_print_newline();
-    mo5_print_line("Press any key to see its code");
-    mo5_print_line("(Screen will scroll)");
+    puts("Press any key to see its code");
+    puts("(Screen will scroll)");
     mo5_print_newline();
-    
+    display_char_code('\n');
+    mo5_print_newline();
     // Infinite loop - read and display character codes
     while (1) {
         mo5_print_string("> ");
