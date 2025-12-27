@@ -175,12 +175,16 @@ Each directory (cmoc-native, cmoc-hybrid, home-made) contains the same two sampl
 
 Hello [entered name]
 
+![Sample 1](assets/mo5-sample1.jpg "Sample 1")
+
 ---
 
 ### sample2 — Key Code Display Program
 
 - Waits for a key press
 - Displays the character code of the pressed key
+
+![Sample 2](assets/mo5-sample2.jpg "Sample 2")
 
 ---
 
