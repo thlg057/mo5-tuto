@@ -195,6 +195,17 @@ Hello [entered name]
 
 ---
 
+## References
+
+Detailed explanations about the development environment and toolchain setup used in this project are available on my blog:
+
+- Toolchain and environment setup (DCMOTO, LWTOOLS, CMOC, BootFloppyDisk):  
+  https://thlg057.github.io/mo5-blog/en/days/day-1-setup/
+
+This article explains step by step how to install and configure the tools required to build and run the examples provided in this repository.
+
+---
+
 ## Credits
 
 - BootFloppyDisk tools by OlivierP-To8
