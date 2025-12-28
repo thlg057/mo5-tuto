@@ -34,7 +34,7 @@ They are well-known and trusted resources in the retro-computing community.
 ├── tools/
 │   └── BootFloppyDisk/       # BootFloppyDisk tools
 ├── cmoc-native/
-│   ├── Makefile              # Builds sample1 and sample2
+│   ├── Makefile              # Builds all samples
 │   ├── sample1/
 │   │   ├── Makefile
 │   │   └── src/
@@ -44,18 +44,22 @@ They are well-known and trusted resources in the retro-computing community.
 │       └── src/
 │           └── main.c
 ├── cmoc-hybrid/
-│   ├── Makefile              # Builds sample1 and sample2
+│   ├── Makefile              # Builds all samples
 │   ├── libs/
 │   ├── sample1/
 │   │   ├── Makefile
 │   │   └── src/
 │   │       └── main.c
-│   └── sample2/
+│   ├── sample2/
+│   │   ├── Makefile
+│   │   └── src/
+│   │       └── main.c
+│   └── sample3/
 │       ├── Makefile
 │       └── src/
 │           └── main.c
 └── home-made/
-    ├── Makefile              # Builds sample1 and sample2
+    ├── Makefile              # Builds all samples
     ├── libs/
     ├── sample1/
     │   ├── Makefile
