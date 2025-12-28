@@ -188,6 +188,15 @@ Hello [entered name]
 
 ---
 
+### sample3 (cmoc-hybrid only) — text rocket game
+
+- move a rocket (A caracter)
+- fuel management
+
+![Sample 3](assets/mo5-sample3.jpg "Sample 3")
+
+---
+
 ## Goals of This Repository
 
 - Explore C programming on the Thomson MO5

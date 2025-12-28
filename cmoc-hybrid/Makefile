@@ -29,7 +29,7 @@ FDFS        := $(BOOTFD_DIR)/tools/fdfs
 BOOTMO_BIN  := $(TOOLS_DIR)/BOOTMO.BIN
 
 # List of tutorials
-TUTORIALS   := sample1 sample2
+TUTORIALS   := sample1 sample2 sample3
 
 # ==========================================================
 # TARGETS
