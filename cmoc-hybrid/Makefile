@@ -29,7 +29,7 @@ FDFS        := $(BOOTFD_DIR)/tools/fdfs
 BOOTMO_BIN  := $(TOOLS_DIR)/BOOTMO.BIN
 
 # List of tutorials
-TUTORIALS   := sample1 sample2 sample3
+TUTORIALS   := what_is_your_name key_reader fusee
 
 # ==========================================================
 # TARGETS

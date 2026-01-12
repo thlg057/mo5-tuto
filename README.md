@@ -35,37 +35,48 @@ They are well-known and trusted resources in the retro-computing community.
 │   └── BootFloppyDisk/       # BootFloppyDisk tools
 ├── cmoc-native/
 │   ├── Makefile              # Builds all samples
-│   ├── sample1/
+│   ├── key_reader/
 │   │   ├── Makefile
 │   │   └── src/
 │   │       └── main.c
-│   └── sample2/
+│   └── what_is_your_name/
 │       ├── Makefile
 │       └── src/
 │           └── main.c
 ├── cmoc-hybrid/
 │   ├── Makefile              # Builds all samples
 │   ├── libs/
-│   ├── sample1/
+│   ├── key_reader/
 │   │   ├── Makefile
 │   │   └── src/
 │   │       └── main.c
-│   ├── sample2/
+│   ├── what_is_your_name/
 │   │   ├── Makefile
 │   │   └── src/
 │   │       └── main.c
-│   └── sample3/
+│   └── fusee/
 │       ├── Makefile
 │       └── src/
 │           └── main.c
-└── home-made/
+├── home-made/
+│   ├── Makefile              # Builds all samples
+│   ├── libs/
+│   ├── key_reader/
+│   │   ├── Makefile
+│   │   └── src/
+│   │       └── main.c
+│   └── what_is_your_name/
+│       ├── Makefile
+│       └── src/
+│           └── main.c
+└── graphic/
     ├── Makefile              # Builds all samples
     ├── libs/
-    ├── sample1/
+    ├── display_text/
     │   ├── Makefile
     │   └── src/
     │       └── main.c
-    └── sample2/
+    └── hello_word/
         ├── Makefile
         └── src/
             └── main.c
@@ -121,7 +132,7 @@ Each sample directory has its own Makefile and a single entry point located in s
 Example:
 
 ```bash
-cd cmoc-native/sample1
+cd cmoc-native/key_reader
 make
 ```
 
@@ -168,11 +179,18 @@ Libraries are located in home-made/libs.
 
 ---
 
+### graphic
+
+- Use cmoc.h
+- Explore graphic features
+
+---
+
 ## Sample Projects
 
 Each directory (cmoc-native, cmoc-hybrid, home-made) contains the same two sample projects.
 
-### sample1 — Name Greeting Program
+### what_is_your_name — Name Greeting Program
 
 - Prompts the user to enter their name
 - Displays:
@@ -183,7 +201,7 @@ Hello [entered name]
 
 ---
 
-### sample2 — Key Code Display Program
+### key_reader — Key Code Display Program
 
 - Waits for a key press
 - Displays the character code of the pressed key
@@ -192,7 +210,7 @@ Hello [entered name]
 
 ---
 
-### sample3 (cmoc-hybrid only) — text rocket game
+### fusee (cmoc-hybrid only) — text rocket game
 
 - move a rocket (A caracter)
 - fuel management

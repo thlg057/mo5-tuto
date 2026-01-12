@@ -1,19 +1,29 @@
-# Tutorial 2 - Character Code Explorer
-# Makefile for Thomson MO5 development
+# ==========================================================
+# MO5 Tutorial
+# ==========================================================
+#
+# Author : Thierry Le Got
+# License: MIT
+#
+# This Makefile builds a Thomson MO5 program using CMOC,
+# and packages it into a bootable floppy disk image using
+# BootFloppyDisk by OlivierP (https://github.com/OlivierP-To8/BootFloppyDisk)
+#
+# Requirements:
+#   - CMOC installed (system or local)
+#   - BootFloppyDisk tools (fdfs)
+#   - BOOTMO.BIN bootloader
 #
 # Usage:
-#   make         - Build everything (binary + disk image)
-#   make install - Install BootFloppyDisk tools
-#   make clean   - Remove all generated files
+#   make          # compile and build .fd disk image
+#   make clean    # remove binaries and output
+#
+# ==========================================================
 
-# ========================================
-# CONFIGURATION
-# ========================================
-
-PROGRAM := TUTORIAL2
+PROGRAM := WHAT_IS_YOUR_NAME
 
 # Paths
-TOOLS_DIR  := ../tools
+TOOLS_DIR  := ../../tools
 BOOTFD_DIR := $(TOOLS_DIR)/BootFloppyDisk
 FDFS       := $(BOOTFD_DIR)/tools/fdfs
 BOOTMO_BIN := $(TOOLS_DIR)/BOOTMO.BIN

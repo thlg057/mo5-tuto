@@ -1,8 +1,7 @@
 # ==========================================================
-# MO5 Tutorial - CMOC System Version
+# MO5 Tutorial
 # ==========================================================
 #
-# Program: HOMEMADE2
 # Author : Thierry Le Got
 # License: MIT
 #
@@ -21,7 +20,7 @@
 #
 # ==========================================================
 
-PROGRAM := HOMEMADE2
+PROGRAM := FUSEE
 
 # Paths
 TOOLS_DIR  := ../../tools
@@ -37,14 +36,14 @@ OUTPUT_DIR := output
 
 # Files
 MAIN_SRC    := $(SRC_DIR)/main.c
-LIB_SRC     := $(LIBS_DIR)/mo5_ctype.c $(LIBS_DIR)/mo5_stdio.c $(LIBS_DIR)/mo5_defs.c $(LIBS_DIR)/mo5_string.c 
-LIB_HDR     := $(LIBS_DIR)/mo5_ctype.h $(LIBS_DIR)/mo5_stdio.h $(LIBS_DIR)/mo5_defs.h $(LIBS_DIR)/mo5_string.h
+LIB_SRC     := $(LIBS_DIR)/mo5_ctype.c $(LIBS_DIR)/mo5_stdio.c $(LIBS_DIR)/mo5_defs.c
+LIB_HDR     := $(LIBS_DIR)/mo5_ctype.h $(LIBS_DIR)/mo5_stdio.h $(LIBS_DIR)/mo5_defs.h
 PROGRAM_BIN := $(BIN_DIR)/$(PROGRAM).BIN
 DISK_IMAGE  := $(OUTPUT_DIR)/$(PROGRAM).fd
 
 # Compiler
 CMOC       := cmoc
-CMOC_FLAGS := --thommo --org=2600 -I$(LIBS_DIR) -Wno-assign-in-condition -nodefaultlibs
+CMOC_FLAGS := --thommo --org=2600 -I$(LIBS_DIR) -Wno-assign-in-condition
 
 # ========================================
 # TARGETS

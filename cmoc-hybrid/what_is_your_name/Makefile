@@ -2,7 +2,7 @@
 # MO5 Tutorial - CMOC System Version
 # ==========================================================
 #
-# Program: CMOCHYBRID2
+# Program: WHAT_IS_YOUR_NAME
 # Author : Thierry Le Got
 # License: MIT
 #
@@ -21,7 +21,7 @@
 #
 # ==========================================================
 
-PROGRAM := CMOCHYBRID2
+PROGRAM := WHAT_IS_YOUR_NAME
 
 # Paths
 TOOLS_DIR  := ../../tools

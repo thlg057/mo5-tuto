@@ -1,8 +1,27 @@
 /*
- * TUTORIAL 3: Explore "text" gaming
- * Thomson MO5 - Gaming initiation
- * 
+ * MIT License
+ *
+ * Copyright (c) 2025 Thierry Le Got
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
+
 #define _CMOC_HAVE_FALSE_TRUE_
 
 #include <cmoc.h>    
@@ -22,6 +41,14 @@ static int rocket_x = 10;
 static int rocket_y = 5;
 static int fuel     = 100;
 static int score    = 0;
+
+void engine_sound() {
+    // On écrit dans les adresses que ta doc vient de nous révéler
+    *(unsigned char*)0x2044 = 1;  // TEMPO
+    *(unsigned char*)0x2046 = 5;  // DUREE
+    // On appelle un SWI spécifique ou on envoie le caractère 7
+    putchar(7); 
+}
 
 void render(void)
 {
@@ -114,6 +141,7 @@ int main(void)
                     rocket_y--;
                     fuel -= FUEL_COST;
                     score += REWARD_UP;
+                    engine_sound();
                 }
                 break;
             case 'S':

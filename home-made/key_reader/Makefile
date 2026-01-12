@@ -1,8 +1,7 @@
 # ==========================================================
-# MO5 Tutorial - CMOC System Version
+# MO5 Tutorial
 # ==========================================================
 #
-# Program: HOMEMADE1
 # Author : Thierry Le Got
 # License: MIT
 #
@@ -21,7 +20,7 @@
 #
 # ==========================================================
 
-PROGRAM := HOMEMADE1
+PROGRAM := KEY_READER
 
 # Paths
 TOOLS_DIR  := ../../tools
@@ -44,7 +43,7 @@ DISK_IMAGE  := $(OUTPUT_DIR)/$(PROGRAM).fd
 
 # Compiler
 CMOC       := cmoc
-CMOC_FLAGS := --thommo --org=2600 -I$(LIBS_DIR) -Wno-assign-in-condition
+CMOC_FLAGS := --thommo --org=2600 -I$(LIBS_DIR) -Wno-assign-in-condition -nodefaultlibs
 
 # ========================================
 # TARGETS

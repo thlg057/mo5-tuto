@@ -1,8 +1,7 @@
 # ==========================================================
-# MO5 Tutorial - CMOC System Version
+# MO5 Tutorial
 # ==========================================================
 #
-# Program: CMOCSNATIVE2
 # Author : Thierry Le Got
 # License: MIT
 #
@@ -21,7 +20,7 @@
 #
 # ==========================================================
 
-PROGRAM     := CMOCSNATIVE2
+PROGRAM     := KEY_READER
 
 # External tools paths
 TOOLS_DIR   := ../../tools

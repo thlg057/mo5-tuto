@@ -1,0 +1,159 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2025 Thierry Le Got
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+#include <cmoc.h>
+
+#define PRC       ((unsigned char *)0xA7C0)
+#define VIDEO_REG ((unsigned char *)0xA7E7)
+
+// Couleurs officielles MO5 (0-7)
+#define C_BLACK   0
+#define C_RED     1
+#define C_GREEN   2
+#define C_YELLOW  3
+#define C_BLUE    4
+#define C_MAGENTA 5
+#define C_CYAN    6
+#define C_WHITE   7
+
+// Macro corrigée : Le fond utilise les bits 4-6, la forme les bits 0-3
+#define COLOR(bg, fg) (unsigned char)(((fg & 0x07) << 4) | (bg & 0x0F))
+
+unsigned int row_offsets[200];
+
+// --- POLICE ARCADE 8x8 ---
+unsigned char f_A[]={0x3C,0x66,0x66,0x7E,0x66,0x66,0x66,0x00};
+unsigned char f_B[]={0x7C,0x66,0x66,0x7C,0x66,0x66,0x7C,0x00};
+unsigned char f_C[]={0x3C,0x66,0x60,0x60,0x60,0x66,0x3C,0x00};
+unsigned char f_D[]={0x78,0x6C,0x66,0x66,0x66,0x6C,0x78,0x00};
+unsigned char f_E[]={0x7E,0x60,0x60,0x78,0x60,0x60,0x7E,0x00};
+unsigned char f_F[]={0x7E,0x60,0x60,0x78,0x60,0x60,0x60,0x00};
+unsigned char f_G[]={0x3C,0x66,0x60,0x6E,0x66,0x66,0x3C,0x00};
+unsigned char f_H[]={0x66,0x66,0x66,0x7E,0x66,0x66,0x66,0x00};
+unsigned char f_I[]={0x3C,0x18,0x18,0x18,0x18,0x18,0x3C,0x00};
+unsigned char f_J[]={0x1E,0x0C,0x0C,0x0C,0x0C,0x6C,0x38,0x00};
+unsigned char f_K[]={0x66,0x6C,0x78,0x70,0x78,0x6C,0x66,0x00};
+unsigned char f_L[]={0x60,0x60,0x60,0x60,0x60,0x60,0x7E,0x00};
+unsigned char f_M[]={0x66,0x7E,0x7E,0x66,0x66,0x66,0x66,0x00};
+unsigned char f_N[]={0x66,0x76,0x7E,0x7E,0x6E,0x66,0x66,0x00};
+unsigned char f_O[]={0x3C,0x66,0x66,0x66,0x66,0x66,0x3C,0x00};
+unsigned char f_P[]={0x7C,0x66,0x66,0x7C,0x60,0x60,0x60,0x00};
+unsigned char f_Q[]={0x3C,0x66,0x66,0x66,0x6E,0x3C,0x0E,0x00};
+unsigned char f_R[]={0x7C,0x66,0x66,0x7C,0x78,0x6C,0x66,0x00};
+unsigned char f_S[]={0x3C,0x66,0x30,0x18,0x0C,0x66,0x3C,0x00};
+unsigned char f_T[]={0x7E,0x18,0x18,0x18,0x18,0x18,0x18,0x00};
+unsigned char f_U[]={0x66,0x66,0x66,0x66,0x66,0x66,0x3C,0x00};
+unsigned char f_V[]={0x66,0x66,0x66,0x66,0x66,0x3C,0x18,0x00};
+unsigned char f_W[]={0x66,0x66,0x66,0x66,0x7E,0x7E,0x66,0x00};
+unsigned char f_X[]={0x66,0x66,0x3C,0x18,0x3C,0x66,0x66,0x00};
+unsigned char f_Y[]={0x66,0x66,0x66,0x3C,0x18,0x18,0x18,0x00};
+unsigned char f_Z[]={0x7E,0x06,0x0C,0x18,0x30,0x60,0x7E,0x00};
+unsigned char f_0[]={0x3C,0x66,0x6E,0x7E,0x76,0x66,0x3C,0x00};
+unsigned char f_1[]={0x18,0x38,0x18,0x18,0x18,0x18,0x7E,0x00};
+unsigned char f_2[]={0x3C,0x66,0x06,0x0C,0x18,0x30,0x7E,0x00};
+unsigned char f_3[]={0x3C,0x66,0x06,0x1C,0x06,0x66,0x3C,0x00};
+unsigned char f_4[]={0x0C,0x1C,0x3C,0x6C,0x7E,0x0C,0x0C,0x00};
+unsigned char f_5[]={0x7E,0x60,0x7C,0x06,0x06,0x66,0x3C,0x00};
+unsigned char f_6[]={0x1C,0x30,0x60,0x7C,0x66,0x66,0x3C,0x00};
+unsigned char f_7[]={0x7E,0x06,0x0C,0x18,0x18,0x18,0x18,0x00};
+unsigned char f_8[]={0x3C,0x66,0x66,0x3C,0x66,0x66,0x3C,0x00};
+unsigned char f_9[]={0x3C,0x66,0x66,0x3E,0x06,0x0C,0x38,0x00};
+unsigned char f_DOT[]={0x00,0x00,0x00,0x00,0x00,0x00,0x18,0x18};
+unsigned char f_EXCL[]={0x18,0x18,0x18,0x18,0x18,0x00,0x18,0x18};
+unsigned char f_SPACE[]={0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+
+// --- LOGIQUE D'AFFICHAGE ---
+
+unsigned char* get_font_ptr(char c) {
+    if (c >= 'A' && c <= 'Z') {
+        unsigned char* alpha[] = {f_A,f_B,f_C,f_D,f_E,f_F,f_G,f_H,f_I,f_J,f_K,f_L,f_M,f_N,f_O,f_P,f_Q,f_R,f_S,f_T,f_U,f_V,f_W,f_X,f_Y,f_Z};
+        return alpha[c - 'A'];
+    }
+    if (c >= 'a' && c <= 'z') {
+        unsigned char* alpha[] = {f_A,f_B,f_C,f_D,f_E,f_F,f_G,f_H,f_I,f_J,f_K,f_L,f_M,f_N,f_O,f_P,f_Q,f_R,f_S,f_T,f_U,f_V,f_W,f_X,f_Y,f_Z};
+        return alpha[c - 'a'];
+    }
+    if (c >= '0' && c <= '9') {
+        unsigned char* nums[] = {f_0,f_1,f_2,f_3,f_4,f_5,f_6,f_7,f_8,f_9};
+        return nums[c - '0'];
+    }
+    if (c == '.') return f_DOT;
+    if (c == '!') return f_EXCL;
+    return f_SPACE;
+}
+
+void draw_char(int tx, int ty, unsigned char *font_ptr, unsigned char color_attr) {
+    unsigned char *vram = (unsigned char *)0x0000;
+    for (int i = 0; i < 8; i++) {
+        unsigned int offset = row_offsets[ty * 8 + i] + tx;
+        *PRC &= ~0x01; vram[offset] = color_attr; 
+        *PRC |= 0x01;  vram[offset] = font_ptr[i]; 
+    }
+}
+
+void draw_string(int tx, int ty, const char *s, unsigned char color) {
+    while (*s) {
+        draw_char(tx++, ty, get_font_ptr(*s++), color);
+        if (tx >= 40) { tx = 0; ty++; }
+    }
+}
+
+// --- INITIALISATION ---
+
+void init_all() {
+    unsigned int i;
+    for (i = 0; i < 200; i++) row_offsets[i] = i * 40;
+    
+    *PRC = 0x00;
+    *VIDEO_REG |= 0x01;
+
+    // NETTOYAGE CRITIQUE
+    // Sur tes images, le "gris" vient de pixels résiduels dans la banque Forme.
+    for (i = 0; i < 8000; i++) {
+        // 1. On force la couleur : Fond Noir (0), Forme Blanc (7)
+        *PRC &= ~0x01; 
+        ((unsigned char*)0x0000)[i] = COLOR(C_BLACK, C_WHITE); 
+        
+        // 2. IMPORTANT : On efface les pixels (Forme) pour supprimer les lignes grises
+        *PRC |= 0x01;  
+        ((unsigned char*)0x0000)[i] = 0x00; 
+    }
+}
+
+int main() {
+    init_all();
+
+    // Verification des couleurs conformes Wikipédia :
+    // "MO5 ARCADE ENGINE" en Jaune (3) sur Fond Noir (0)
+    draw_string(10, 5,  "MO5 ARCADE ENGINE", COLOR(C_YELLOW, C_BLACK));
+    
+    // "SCORE" en Blanc (7) sur Fond Noir (0)
+    draw_string(12, 10, "SCORE. 012345",     COLOR(C_WHITE, C_BLACK));
+    
+    // "READY" en Cyan (6) sur Fond Noir (0)
+    draw_string(10, 15, "READY. PLAYER 1!",  COLOR(C_CYAN, C_BLACK));
+
+    while(1);
+    return 0;
+}

@@ -1,8 +1,7 @@
 # ==========================================================
-# MO5 Tutorial - CMOC System Version
+# MO5 Tutorial
 # ==========================================================
 #
-# Program: CMOCHYBRID3
 # Author : Thierry Le Got
 # License: MIT
 #
@@ -21,7 +20,7 @@
 #
 # ==========================================================
 
-PROGRAM := CMOCHYBRID3
+PROGRAM := KEY_READER
 
 # Paths
 TOOLS_DIR  := ../../tools
